@@ -1,0 +1,13 @@
+version: 2
+
+tasks:
+  run:
+    sources: ["Functions/**/*.cs"]
+    generates: ["Function/bin/output/bin/Transferwise.dll"]
+    cmds:
+    - func start --build
+    dir: Functions
+  generate-api:
+    cmds:
+      - openapi-generator generate -i tw_api.yml -o API -g csharp-netcore -c openapi.config.yml
+      - dotnet add Functions/TransferWise.csproj reference API/src/Transferwise.Services/Transferwise.Services.csproj
