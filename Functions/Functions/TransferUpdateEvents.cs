@@ -24,7 +24,7 @@ namespace Functions
 
         [FunctionName("TransferUpdateEvents")]
         public static async Task<IActionResult> Run(
-            [HttpTrigger(AuthorizationLevel.Function, "post", Route = null)] HttpRequest req,
+            [HttpTrigger(AuthorizationLevel.Anonymous, "post", Route = null)] HttpRequest req,
             ILogger log)
         {
             if (req.Headers.TryGetValue("X-Test-Notification", out var isTestNotif))
