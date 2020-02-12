@@ -9,5 +9,11 @@ tasks:
     dir: Functions
   generate-api:
     cmds:
-      - openapi-generator generate -i tw_api.yml -o API -g csharp-netcore -c openapi.config.yml
-      - dotnet add Functions/TransferWise.csproj reference API/src/Transferwise.Services/Transferwise.Services.csproj
+      - openapi-generator generate -i spec.yml -o APIs/Transferwise -g csharp-netcore -c openapi.config.yml
+      - dotnet add Functions/TransferWise.csproj reference APIs/Transferwise/src/Transferwise.Services/Transferwise.Services.csproj
+    dir: openapi/transferwise
+  generate-api:crunch:
+    cmds:
+      - openapi-generator generate -i spec.yml -o APIs/Crunch -g csharp-netcore -c openapi.config.yml
+      - dotnet add Functions/TransferWise.csproj reference APIs/Crunch/src/Crunch.Services/Crunch.Services.csproj
+    dir: openapi/crunch

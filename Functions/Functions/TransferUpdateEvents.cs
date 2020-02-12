@@ -14,6 +14,8 @@ using Transferwise.Models;
 using Transferwise.Services;
 using Transferwise.Services.Client;
 using System.Diagnostics;
+using Microsoft.Azure.ServiceBus;
+using System.Text;
 
 namespace Functions
 {
@@ -77,6 +79,14 @@ namespace Functions
             {
                 var res = await Client.GetTransferByIdAsync(data.Resource.Id);
                 Console.WriteLine(res);
+
+                var msg = new Notification { Amount = res.SourceValue };
+
+                var sb = new QueueClient(Env.EmailBusConnectionString, Env.EmailBusName);
+
+                await sb.SendAsync(new Message(Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(msg))));
+
+                await sb.CloseAsync();
                 return new OkResult();
             }
             catch (ApiException e)
